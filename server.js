@@ -50,7 +50,13 @@ function getMovies(req, res, next) {
     res.json(`Sorry there is no movie data for ${country}`);
   } 
   
-  
+  if (avg_vote){
+    results = results.filter(item => {
+      return Number(item["avg_vote"]) >= Number(avg_vote);
+    });
+  } if (results.length === 0){
+    res.json(`Sorry there is no movie data for your search!`);
+  } 
 
   
   res.json(results);
