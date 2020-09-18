@@ -9,6 +9,9 @@
     "start": "node server.js"
   },
   "keywords": [],
+  "engines": {
+    "node": "14.8.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -19,4 +22,6 @@
   "devDependencies": {
     "nodemon": "^2.0.4"
   }
+  
+
 }

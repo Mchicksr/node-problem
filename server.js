@@ -8,8 +8,15 @@ const movies = require('./movie-data')
 const API_TOKEN = process.env.API_TOKEN;
 const app = express();
 
-app.use(morgan('dev'));
+const { PORT, NODE_ENV } = require('./config');
 
+
+const morganOption = (NODE_ENV === 'production')
+  ? 'tiny'
+  : 'common';
+
+
+app.use(morgan(morganOption));
 app.use(validateBearer);
 
 function validateBearer(req, res, next) {
@@ -72,7 +79,17 @@ function getMovies(req, res, next) {
 
 app.get('/movie', getMovies);
 
+app.use((error, req, res, next) => {
+  let response
+  if (process.env.NODE_ENV === 'production') {
+    response = { error: { message: 'server error' }}
+  } else {
+    response = { error }
+  }
+  res.status(500).json(response)
+});
 
-app.listen(8000, () => console.log('server on port 8000'))
+
+app.listen(PORT);
 
 
